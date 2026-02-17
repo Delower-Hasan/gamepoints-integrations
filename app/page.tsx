@@ -92,8 +92,8 @@ export default function Home() {
       amount_usd: Math.round(summary.totalUsd * 100) / 100,
       user: DUMMY_USER,
       allowed_topup_methods: ['card', 'crypto','nft'],
-      success_url: window.location.origin + '/success',
-      cancel_url: window.location.origin + '/store'
+      success_url: window.location.origin,
+      cancel_url: window.location.origin
     }
 
     try {
