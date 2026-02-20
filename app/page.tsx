@@ -26,25 +26,25 @@ export default function Home() {
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
       // Verify origin
-      if (event.origin !== 'https://smash-pay-i-frame-checkout.vercel.app') return
+      if (event.origin !== 'https://smashpoints.xyz') return
 
       const { type, data } = event.data || {}
       setLastEvent({ type, data })
-      console.log('Received message from GamePoints:', type, data)
+      console.log('Received message from SmashPoints:', type, data)
 
       switch (type) {
-        case 'GAMEPOINTS_CHECKOUT_READY':
+        case 'SMASHPOINTS_CHECKOUT_READY':
           setStatus('checkout_loaded')
           break
-        case 'GAMEPOINTS_PAYMENT_SUCCESS':
+        case 'SMASHPOINTS_PAYMENT_SUCCESS':
           setStatus('payment_success')
           // close iframe
           setTimeout(() => setIframeUrl(null), 1200)
           break
-        case 'GAMEPOINTS_PAYMENT_FAILED':
+        case 'SMASHPOINTS_PAYMENT_FAILED':
           setStatus('payment_failed')
           break
-        case 'GAMEPOINTS_SESSION_EXPIRED':
+        case 'SMASHPOINTS_SESSION_EXPIRED':
           setStatus('session_expired')
           setIframeUrl(null)
           break
@@ -129,9 +129,9 @@ export default function Home() {
 
   // For demonstration/testing: directly call the message handler with a forged origin object
   // This helper invokes the same logic as the real message handler but allows local testing.
-  function simulateGamepointsEvent(type: string, data = {}) {
-    const fakeEvent = { origin: 'https://smash-pay-i-frame-checkout.vercel.app', data: { type, data } }
-    console.log('Simulating GamePoints event:', type, data)
+  function simulateSmashpointsEvent(type: string, data = {}) {
+    const fakeEvent = { origin: 'https://smashpoints.xyz', data: { type, data } }
+    console.log('Simulating SmashPoints event:', type, data)
     // Call the same handler path by dispatching a custom event to window listeners
     window.dispatchEvent(new MessageEvent('message', fakeEvent))
   }
@@ -143,8 +143,8 @@ export default function Home() {
       <div className="max-w-6xl mx-auto p-6">
         <header className="mb-6 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold">GamePoints Store</h1>
-            <p className="text-sm muted">Demo storefront — integrate GamePoints checkout</p>
+            <h1 className="text-2xl font-semibold">SmashPoints Store</h1>
+            <p className="text-sm muted">Demo storefront — integrate SmashPoints checkout</p>
           </div>
           <div className="text-right muted text-sm">
             <div>Order: <span className="font-mono text-xs">{orderId}</span></div>
@@ -206,9 +206,9 @@ export default function Home() {
             <div className="mt-4">
               <h4 className="text-sm font-medium">Demo controls</h4>
               <div className="mt-2 flex flex-wrap gap-2">
-                <button className="btn-ghost" onClick={() => simulateGamepointsEvent('GAMEPOINTS_CHECKOUT_READY')}>Simulate Ready</button>
-                <button className="btn-ghost" onClick={() => simulateGamepointsEvent('GAMEPOINTS_PAYMENT_SUCCESS', { session_id: 'sess_demo' })}>Simulate Success</button>
-                <button className="btn-ghost" onClick={() => simulateGamepointsEvent('GAMEPOINTS_PAYMENT_FAILED', { error: 'declined' })}>Simulate Failure</button>
+                <button className="btn-ghost" onClick={() => simulateSmashpointsEvent('SMASHPOINTS_CHECKOUT_READY')}>Simulate Ready</button>
+                <button className="btn-ghost" onClick={() => simulateSmashpointsEvent('SMASHPOINTS_PAYMENT_SUCCESS', { session_id: 'sess_demo' })}>Simulate Success</button>
+                <button className="btn-ghost" onClick={() => simulateSmashpointsEvent('SMASHPOINTS_PAYMENT_FAILED', { error: 'declined' })}>Simulate Failure</button>
               </div>
             </div>
 
@@ -225,12 +225,12 @@ export default function Home() {
             <h3 className="text-lg font-medium mb-3">Checkout</h3>
             <div id="checkout-container" className="w-full">
               <iframe
-                id="gamepoints-checkout"
+                id="smashpoints-checkout"
                 ref={iframeRef}
                 src={iframeUrl}
                 width="100%"
                 height="600"
-                title="GamePoints Checkout"
+                title="SmashPoints Checkout"
                 className="w-full rounded-lg border-0"
               />
             </div>
