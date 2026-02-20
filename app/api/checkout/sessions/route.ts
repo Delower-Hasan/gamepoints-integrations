@@ -3,11 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
     try {
         try {
-            const target = process.env.TARGET_API_URL || 'https://smash-pay-i-frame-checkout.vercel.app/api/v1/checkout/sessions'
-            const apiKey = process.env.GAMEPOINTS_API_KEY || 'sk_8fdc561bfab5a7a850d728558cb279ca448ce71f8e121805' // Default key for testing, replace with your own for production
+            const target = process.env.TARGET_API_URL || 'https://smashpoints.xyz/api/v1/checkout/sessions'
+            const apiKey = process.env.SMASHPOINTS_API_KEY || 'sk_8fdc561bfab5a7a850d728558cb279ca448ce71f8e121805' // Default key for testing, replace with your own for production
 
             if (!apiKey) {
-                return NextResponse.json({ error: 'Server missing GAMEPOINTS_API_KEY env var' }, { status: 500 })
+                return NextResponse.json({ error: 'Server missing SMASHPOINTS_API_KEY env var' }, { status: 500 })
             }
 
             const response = await fetch(target, {
